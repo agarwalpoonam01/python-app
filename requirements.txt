@@ -22,7 +22,7 @@ filelock==3.0.12
 Flask==1.1.2
 future==0.18.2
 Guake==3.6.3
-httplib2==0.14.0
+httplib2==0.18.0
 idna==2.8
 iotop==0.6
 itsdangerous==1.1.0
