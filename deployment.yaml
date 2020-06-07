@@ -29,7 +29,6 @@ spec:
       containers:
       - name: hello-python
         image: poonamag/test-app 
-        imagePullPolicy: Never
         ports:
         - containerPort: 5000
 
