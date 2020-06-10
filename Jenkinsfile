@@ -10,12 +10,22 @@ pipeline {
 			checkout([$class: 'GitSCM',branches: [[name: 'origin/master']],extensions: [[$class: 'WipeWorkspace']],userRemoteConfigs: [[url: 'https://github.com/hellodk/python-app.git']]  ])
 		}
 		}
+
+		
 		stage("Build Docker Image"){
 			steps{
 			sh 'pwd'
 			//sh 'cd helloworld'
+        withCredentials([
+      [$class: 'UsernamePasswordMultiBinding', credentialsId: docker_cred, usernameVariable: 'dockeruser', passwordVariable: 'dockerpass'],
+  ])
+        {
 			sh "docker build -t ${dockeruser}/test-app . --no-cache"
+		}
 		}}
+
+
+
 		stage('Upload Image to DockerHub'){
 			steps{
 				//String dockerHub = 'https://registry.hub.docker.com'
