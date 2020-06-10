@@ -14,7 +14,7 @@ pipeline {
 			steps{
 			sh 'pwd'
 			//sh 'cd helloworld'
-			sh "docker build -t hellodk/test-app . --no-cache"
+			sh "docker build -t ${dockeruser}/test-app . --no-cache"
 		}}
 		stage('Upload Image to DockerHub'){
 			steps{
@@ -25,14 +25,14 @@ pipeline {
   ]){
 				sh "docker login -u ${dockeruser} -p ${dockerpass} ${dockerHub}"
   }
-	    	  sh 'docker push hellodk/test-app'
+	    	  sh 'docker push ${dockeruser}/test-app'
 	    	  }
 	  	}
 		stage("Running Docker Image"){
 		steps{
-			sh "/usr/local/bin/kubectl get namespaces"
-			sh "/usr/local/bin/kubectl apply -f deployment.yaml"
-			sh "/usr/local/bin/kubectl apply -f service.yaml"
+			sh "kubectl get namespaces"
+			sh "kubectl apply -f deployment.yaml"
+			sh "kubectl apply -f service.yaml"
 		}
 		}
 }
