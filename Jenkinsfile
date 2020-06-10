@@ -34,15 +34,12 @@ pipeline {
       [$class: 'UsernamePasswordMultiBinding', credentialsId: docker_cred, usernameVariable: 'dockeruser', passwordVariable: 'dockerpass'],
   ]){
 				sh "docker login -u ${dockeruser} -p ${dockerpass} ${dockerHub}"
-  }
-
-withCredentials([
-[$class: 'UsernamePasswordMultiBinding', credentialsId: docker_cred, usernameVariable: 'dockeruser', passwordVariable: 'dockerpass'],
-  ])
+  
 
 	    	  sh 'docker push ${dockeruser}/test-app'
 	    	  }
 	  	}
+	  }
 		stage("Running Docker Image"){
 		steps{
 			sh "kubectl get namespaces"
