@@ -11,7 +11,7 @@ pipeline {
 		}
 		}
 
-		
+
 		stage("Build Docker Image"){
 			steps{
 			sh 'pwd'
@@ -35,6 +35,11 @@ pipeline {
   ]){
 				sh "docker login -u ${dockeruser} -p ${dockerpass} ${dockerHub}"
   }
+
+withCredentials([
+[$class: 'UsernamePasswordMultiBinding', credentialsId: docker_cred, usernameVariable: 'dockeruser', passwordVariable: 'dockerpass'],
+  ])
+
 	    	  sh 'docker push ${dockeruser}/test-app'
 	    	  }
 	  	}
