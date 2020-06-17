@@ -42,9 +42,9 @@ pipeline {
 	  }
 		stage("Running Docker Image"){
 		steps{
-			sh "kubectl get namespaces"
-			sh "kubectl apply -f deployment.yaml"
-			sh "kubectl apply -f service.yaml"
+			sh "/usr/local/bin/kubectl get namespaces"
+			sh "/usr/local/bin/kubectl apply -f deployment.yaml"
+			sh "/usr/local/bin/kubectl apply -f service.yaml"
 		}
 		}
 }
