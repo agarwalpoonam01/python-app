@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+    stages {
+        stage('Setup parameters') {
+            steps {
+                script { 
+                    properties([
+                        parameters([
+                            choice(
+                                choices: ['PRODUCTION', 'STAGING', 'DEVELOPMENT'], 
+                                name: 'ENVIRONMENT'
+                            ),
+
+                            choice(
+                                choices: ['hello-world', 'ghost'], 
+                                name: 'Image'
+                            ),
+
+                            booleanParam(
+                                defaultValue: true, 
+                                description: '', 
+                                name: 'BOOLEAN'
+                            ),
+
+                            text(
+                                defaultValue: '''
+                                this is a multi-line 
+                                string parameter example
+                                ''', 
+                                 name: 'MULTI-LINE-STRING'
+                            ),
+
+                            string(
+                                defaultValue: 'scriptcrunch', 
+                                name: 'STRING-PARAMETER', 
+                                trim: true
+                            ),
+                        
+                            imageTag(name: 'DOCKER_IMAGE', description: '',
+                                image: 'hellodk/hello-world', defaultTag: 'v1',
+                                registry: 'https://quay.io', credentialId: 'quay', tagOrder: 'NATURAL')
+
+                        ])
+                    ])
+                }
+            }
+        }
+
+        stage('Deploy to Production') {
+            when {
+                expression { 
+                   return params.ENVIRONMENT == 'PROD'
+                }
+            }
+            steps {
+                    sh """
+                    echo "deploy to production"
+                    """
+                }
+            }
+   }
+    }
